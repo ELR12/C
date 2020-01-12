@@ -84,3 +84,32 @@ vector<int> AdjacencyMatrixGraph<T>::neighbors(T x)
 	return myVect;
 }
 
+
+
+
+
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::addEdge(T x, T y)
+{
+	assert(x < this->size && x >=0);
+	assert(y < this->size && y >= 0);
+	if (this->adjMatrixArray[x][y] == NULL) {
+		this->adjMatrixArray[x][y] = 1;  //add edge
+	}
+}
+
+
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::deleteEdge(T x, T y)
+{
+	assert(x < this->size && x >= 0);
+	assert(y < this->size && y >= 0);
+	if (this->adjMatrixArray[x][y] == 1) {
+		this->adjMatrixArray[x][y] = NULL;  //add edge
+	}
+}
+

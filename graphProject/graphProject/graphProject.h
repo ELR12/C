@@ -8,6 +8,7 @@
 #include <random>
 #include <vector>
 #include <iterator>
+#include <cassert>
 using namespace std;
 
 
@@ -17,6 +18,8 @@ class Graph {
 public:
 	virtual bool adjacent(T, T) = 0;
 	virtual vector <int> neighbors(T)=0;
+	virtual void addEdge(T, T) = 0;
+	virtual void deleteEdge(T, T) = 0;
 
 private:
 };
@@ -34,6 +37,8 @@ public:
     vector <int> neighbors(T);
 	int ** generateNewGraph(int, double);
 	void displayMatrixGraph();
+	void addEdge(T, T);
+	void deleteEdge(T, T);
 private:
 	T **adjMatrixArray;
 	int size = 0;
