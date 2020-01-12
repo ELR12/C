@@ -113,3 +113,28 @@ void AdjacencyMatrixGraph<T>::deleteEdge(T x, T y)
 	}
 }
 
+
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::deleteNode(T x) 
+{
+	assert(x < this->size && x >= 0);
+
+
+	// before deleting node "x", take care of
+	// all nodes with edges to the node "x"
+	for (int i = 0; i < this->size; ++i) {
+		if (this->adjMatrixArray[i][x] == 1) {
+			this->adjMatrixArray[i][x] = NULL;
+		}
+	}
+
+	//delete all edges of node x
+	for (int j = 0; j < this->size; ++j) {
+		this->adjMatrixArray[x][j] = NULL;
+	}
+
+
+}
+

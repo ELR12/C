@@ -20,6 +20,7 @@ public:
 	virtual vector <int> neighbors(T)=0;
 	virtual void addEdge(T, T) = 0;
 	virtual void deleteEdge(T, T) = 0;
+	virtual void deleteNode(T) = 0;
 
 private:
 };
@@ -39,6 +40,7 @@ public:
 	void displayMatrixGraph();
 	void addEdge(T, T);
 	void deleteEdge(T, T);
+	void deleteNode(T);
 private:
 	T **adjMatrixArray;
 	int size = 0;
