@@ -9,6 +9,7 @@
 #include <vector>
 #include <iterator>
 #include <cassert>
+#include <queue>
 using namespace std;
 
 
@@ -41,6 +42,10 @@ public:
 	void addEdge(T, T);
 	void deleteEdge(T, T);
 	void deleteNode(T);
+	void bfs(AdjacencyMatrixGraph&, T);
+
+	void getVertexNumber(vector<T>&, vector<bool>&, queue<T>&);
+	
 private:
 	T **adjMatrixArray;
 	int size = 0;

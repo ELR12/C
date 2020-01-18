@@ -77,7 +77,7 @@ template<class T>
 vector<int> AdjacencyMatrixGraph<T>::neighbors(T x)
 {
 	vector <int> myVect;
-
+	assert(x < this->size && x >= 0);
 	for (int i = 0; i < this->size; ++i) {
 		myVect.push_back(this->adjMatrixArray[x][i]);
 	}
@@ -134,7 +134,49 @@ void AdjacencyMatrixGraph<T>::deleteNode(T x)
 	for (int j = 0; j < this->size; ++j) {
 		this->adjMatrixArray[x][j] = NULL;
 	}
-
-
 }
+
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::bfs(AdjacencyMatrixGraph &g, T startNode)
+{
+	vector <bool> processedVect;
+	vector <T> connections;
+	queue <T> vertexQueue;
+	//int vertexNumber;
+
+	assert(startNode < g.size && startNode >= 0);
+	for (int i = 0; i < this->size; ++i) {  //init array
+		processedVect.push_back(false);
+	}
+
+	processedVect[startNode] = true;
+	vertexQueue.push(startNode);
+	while (!vertexQueue.empty()) {
+		connections = g.neighbors(vertexQueue.front());
+		vertexQueue.pop();
+		getVertexNumber(connections, processedVect, vertexQueue);
+
+	}
+}
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::getVertexNumber(vector<T> &connections, vector<bool> &processedVect, queue<T> &queue)
+{
+	int index = 0;
+	vector<int>::iterator it;
+
+	for (it = connections.begin(); it != connections.end(); ++it) {
+		if (processedVect[index] == false) {
+			processedVect[index] = true;
+			queue.push(index);  //push vertex number into queue
+		}
+		++index;
+	}
+}
+
+
+
 
