@@ -181,6 +181,59 @@ void AdjacencyListGraph<T>::deleteNode(T x)
 }
 
 
+template<class T>
+void AdjacencyListGraph<T>::visit(T node)
+{
+	cout << "I am inside the 'visit' lambda function and am processing vertex: " << node << endl;;
+}
+
+
+
+
+
+
+
+
+// This function implements a lambda function that
+// points to the "visit" function
+// cite:  https://en.cppreference.com/w/cpp/language/lambda
+// cite: 'Data Structures and Other Objects Using C++ by Main/Savitch'
+
+template<class T>
+void AdjacencyListGraph<T>::bfs(AdjacencyListGraph &g, T startNode)
+{
+	vector <bool> processedVect;
+	vector <T> connections;
+	vector <int>::iterator itr;
+	queue <T> vertexQueue;
+	T processingNode = startNode;
+	auto lambdaVisit = [&]() {this->visit(processingNode); };  // lambda expression for "visit" function
+
+	assert(startNode < g.size && startNode >= 0);
+	for (int i = 0; i < this->size; ++i) {  //init array
+		processedVect.push_back(false);
+	}
+
+	processedVect[startNode] = true;
+	vertexQueue.push(startNode);
+	while (!vertexQueue.empty()) {
+		connections = g.neighbors(vertexQueue.front());
+		auto lambdaVisit = [&]() {this->visit(vertexQueue.front()); };
+		lambdaVisit();
+		vertexQueue.pop();
+		for (itr = connections.begin(); itr != connections.end(); ++itr) {
+			if (processedVect[*itr] == false) {
+				processedVect[*itr] = true;
+				vertexQueue.push(*itr);  //push vertex number into queue
+			}
+		}
+	}
+}
+
+
+
+
+
 
 
 

@@ -75,7 +75,8 @@ class AdjacencyListGraph : public Graph<T>
 		void deleteNode(T);
 		void  generateNewGraph(int,double);
 		void displayListGraph();
-
+		void bfs(AdjacencyListGraph&, T);
+		void visit(T);
 	private:
 		list<T> myList[SET_SIZE];
 		list<int>::iterator listIter;
