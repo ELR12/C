@@ -3,6 +3,192 @@
 
 
 template <class T>
+Graph<T>::Graph()
+{
+
+
+}
+
+
+template <class T>
+Graph<T>::~Graph()
+{
+
+
+}
+
+
+
+
+template <class T>
+AdjacencyListGraph<T>::AdjacencyListGraph()
+{
+	this->size = 0;
+}
+
+
+
+
+
+
+template <class T>
+AdjacencyListGraph<T>::~AdjacencyListGraph()
+{
+
+
+}
+
+
+
+
+template <class T>
+void  AdjacencyListGraph<T>::generateNewGraph(int numOfNodes, double edgeProbability)
+{
+
+	default_random_engine generator;
+	uniform_int_distribution<int> distro(0, numOfNodes - 1);
+	int randomEdgeCounter = distro(generator);
+	this->size = numOfNodes;
+	int save;
+
+	//create vertexes
+	for (int i = 0; i < this->size; ++i) {
+		this->myList[i].push_back(i);
+	}
+
+
+	//adding edges to nodes randomly
+	for (int i = 0; i < this->size; ++i) {
+		randomEdgeCounter = distro(generator);  // randomize vertex numbers
+		for (int j = randomEdgeCounter; j < this->size; ++j) {
+			j = distro(generator); // randomize edge
+			this->myList[i].push_back(randomEdgeCounter);
+			randomEdgeCounter = distro(generator);  // randomize vertex numbers
+		}
+	}
+
+
+	//sorts all vertexes so that unique function will remove any duplicate edges
+	for (int i = 0; i < this->size; ++i) {
+		save = this->myList[i].front();
+		this->myList[i].sort();
+		this->myList[i].unique();
+		this->myList[i].push_front(save);  //vertex number
+	}
+}
+
+
+
+
+template <class T>
+void AdjacencyListGraph<T>::displayListGraph()
+{
+
+	for (int i = 0; i < this->size; ++i) {
+		for (this->listIter = this->myList[i].begin(); this->listIter != this->myList[i].end(); ++this->listIter) {
+			cout << *this->listIter << " ";
+		}
+		cout << endl;
+	}
+}
+
+
+
+
+
+
+template <class T>
+bool AdjacencyListGraph<T>::adjacent(T x, T y)
+{
+	bool found = false;
+	for (this->listIter = this->myList[x].begin(); this->listIter != this->myList[x].end(); ++this->listIter) {
+		if (*this->listIter == y) {
+			found = true;
+			break;
+		}
+	}
+	return found;
+}
+
+
+
+
+
+
+
+
+template<class T>
+vector<int> AdjacencyListGraph<T>::neighbors(T x)
+{
+	vector <int> myVect;
+	assert(x < this->size && x >= 0);
+
+
+	for (this->listIter = this->myList[x].begin(); this->listIter != this->myList[x].end(); ++this->listIter) {
+		myVect.push_back(*this->listIter);
+	}
+	return myVect;
+}
+
+
+
+
+
+
+
+
+template<class T>
+void AdjacencyListGraph<T>::addEdge(T x, T y)
+{
+	bool found = false;
+	assert(x < this->size && x >= 0);
+	assert(y < this->size && y >= 0);
+
+	for (this->listIter = this->myList[x].begin(); this->listIter != this->myList[x].end(); ++this->listIter) {
+		if (*this->listIter == y) {
+			found = true;
+			break;
+		}
+	}
+	if (found == false) {  // if edge "y" does not exit, add edge "y"
+		this->myList[x].push_back(y);
+	}
+}
+
+
+
+
+
+
+template<class T>
+void AdjacencyListGraph<T>::deleteEdge(T x, T y)
+{
+	assert(x < this->size && x >= 0);
+	assert(y < this->size && y >= 0);
+	this->myList[x].remove(y);  // remove the edge from x to y
+}
+
+
+
+
+template<class T>
+void AdjacencyListGraph<T>::deleteNode(T x)
+{
+	assert(x < this->size && x >= 0);
+	for (int i = 0; i < this->size; ++i) {
+		this->myList[i].remove(x);
+	}
+}
+
+
+
+
+
+
+
+
+
+template <class T>
 bool AdjacencyMatrixGraph<T>::adjacent(T x, T y) 
 {
 	if (this->adjMatrixArray[x][y] == NULL) {
@@ -12,6 +198,28 @@ bool AdjacencyMatrixGraph<T>::adjacent(T x, T y)
 		return true;  // adjacency exists
 	}
 }
+
+
+
+
+template <class T>
+AdjacencyMatrixGraph<T>::AdjacencyMatrixGraph()
+{
+	this->size = 0;
+
+}
+
+
+
+
+template <class T>
+AdjacencyMatrixGraph<T>::~AdjacencyMatrixGraph()
+{
+
+
+}
+
+
 
 
 
@@ -68,6 +276,10 @@ void AdjacencyMatrixGraph<T>::displayMatrixGraph()
 		cout << endl;
 	}
 }
+
+
+
+
 
 
 
