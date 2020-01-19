@@ -43,6 +43,7 @@ public:
 	void deleteEdge(T, T);
 	void deleteNode(T);
 	void bfs(AdjacencyMatrixGraph&, T);
+	void visit(T);
 
 	void getVertexNumber(vector<T>&, vector<bool>&, queue<T>&);
 	

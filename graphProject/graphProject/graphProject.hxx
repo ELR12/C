@@ -138,13 +138,25 @@ void AdjacencyMatrixGraph<T>::deleteNode(T x)
 
 
 
+
+
+
+
+
+
+// This function implements a lambda function that
+// points to the "visit" function
+// cite:  https://en.cppreference.com/w/cpp/language/lambda
+// cite: 'Data Structures and Other Objects Using C++ by Main/Savitch'
+
 template<class T>
 void AdjacencyMatrixGraph<T>::bfs(AdjacencyMatrixGraph &g, T startNode)
 {
 	vector <bool> processedVect;
 	vector <T> connections;
 	queue <T> vertexQueue;
-	//int vertexNumber;
+	T processingNode = startNode;
+	auto lambdaVisit = [&]() {this->visit(processingNode); };  // lambda expression for "visit" function
 
 	assert(startNode < g.size && startNode >= 0);
 	for (int i = 0; i < this->size; ++i) {  //init array
@@ -152,14 +164,22 @@ void AdjacencyMatrixGraph<T>::bfs(AdjacencyMatrixGraph &g, T startNode)
 	}
 
 	processedVect[startNode] = true;
+
 	vertexQueue.push(startNode);
 	while (!vertexQueue.empty()) {
 		connections = g.neighbors(vertexQueue.front());
+
+		auto lambdaVisit = [&]() {this->visit(vertexQueue.front()); };
+		lambdaVisit();
+
 		vertexQueue.pop();
 		getVertexNumber(connections, processedVect, vertexQueue);
 
 	}
 }
+
+
+
 
 
 template<class T>
@@ -176,6 +196,19 @@ void AdjacencyMatrixGraph<T>::getVertexNumber(vector<T> &connections, vector<boo
 		++index;
 	}
 }
+
+
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::visit(T node)
+{
+	cout << "I am inside the 'visit' lambda function and am processing vertex: " << node << endl;;
+}
+
+
+
+
 
 
 
