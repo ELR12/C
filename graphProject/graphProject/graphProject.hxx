@@ -42,7 +42,7 @@ AdjacencyListGraph<T>::~AdjacencyListGraph()
 
 
 template <class T>
-void  AdjacencyListGraph<T>::generateNewGraph(int numOfNodes, double edgeProbability)
+AdjacencyListGraph<T>&  AdjacencyListGraph<T>::generateNewGraph(int numOfNodes, double edgeProbability)
 {
 
 	default_random_engine generator;
@@ -50,6 +50,7 @@ void  AdjacencyListGraph<T>::generateNewGraph(int numOfNodes, double edgeProbabi
 	int randomEdgeCounter = distro(generator);
 	this->size = numOfNodes;
 	int save;
+	AdjacencyListGraph graph;
 
 	//create vertexes
 	for (int i = 0; i < this->size; ++i) {
@@ -75,6 +76,7 @@ void  AdjacencyListGraph<T>::generateNewGraph(int numOfNodes, double edgeProbabi
 		this->myList[i].unique();
 		this->myList[i].push_front(save);  //vertex number
 	}
+	return graph;
 }
 
 
@@ -233,6 +235,47 @@ void AdjacencyListGraph<T>::bfs(AdjacencyListGraph &g, T &startNode)
 
 
 
+template<class T>
+void AdjacencyListGraph<T>::dfsHelper(AdjacencyListGraph& g, T startNode, vector<bool> &processedVect, int index)
+{
+	vector <T> connections = g.neighbors(startNode);
+	vector <int>::iterator iter;
+	processedVect[startNode] = true;
+	index = startNode;
+	auto lambdaVisit = [&]() {this->visit(startNode); };
+	lambdaVisit();
+
+	for (iter = connections.begin(); iter != connections.end(); ++iter) {
+		if (!processedVect[*iter]) {
+			dfsHelper(g, *iter, processedVect, index);
+		}
+	}
+}
+
+
+
+
+template<class T>
+void AdjacencyListGraph<T>::dfs(AdjacencyListGraph& g, T &startNode)
+{
+	vector <bool> processedVect;
+	int index = 0;
+
+	assert(startNode < g.size && startNode >= 0);
+	for (int i = 0; i < this->size; ++i) {  //init array
+		processedVect.push_back(false);
+	}
+	g.dfsHelper(g, startNode, processedVect, index);
+
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -282,13 +325,14 @@ AdjacencyMatrixGraph<T>::~AdjacencyMatrixGraph()
 //cite: https://stackoverflow.com/questions/936687/how-do-i-declare-a-2d-array-in-c-using-new
 // Used to understand how to efficiently use double pointers to create a matrix.
 template<class T>
-int ** AdjacencyMatrixGraph<T>::generateNewGraph(int numOfNodes, double edgeProbability) 
+AdjacencyMatrixGraph<T>& AdjacencyMatrixGraph<T>::generateNewGraph(int numOfNodes, double edgeProbability)
 {
 	default_random_engine generator;
 	uniform_int_distribution<int> distro(0, numOfNodes - 1);
 	int randomEdgeCounter = distro(generator);
 	this->size = numOfNodes;
 	this->adjMatrixArray = new int*[numOfNodes]; // adjacency matrix table
+	AdjacencyListGraph graph;
 
 												 //creating graph matrix
 	for (int i = 0; i < this->size; ++i) {
@@ -311,7 +355,7 @@ int ** AdjacencyMatrixGraph<T>::generateNewGraph(int numOfNodes, double edgeProb
 			j = distro(generator); // randomize edge
 		}
 	}
-	return this->adjMatrixArray;
+	return graph;
 }
 
 
@@ -470,7 +514,6 @@ template<class T>
 void AdjacencyMatrixGraph<T>::dfsHelper(AdjacencyMatrixGraph& g, T startNode, vector<bool> &processedVect, int index)
 {
 	vector <T> connections = g.neighbors(startNode);
-	vector <int>::iterator iter;
 	processedVect[startNode] = true;
 	index = startNode;
 	auto lambdaVisit = [&]() {this->visit(startNode); };
