@@ -10,6 +10,7 @@ Graph<T>::Graph()
 }
 
 
+
 template <class T>
 Graph<T>::~Graph()
 {
@@ -19,14 +20,11 @@ Graph<T>::~Graph()
 
 
 
-
 template <class T>
 AdjacencyListGraph<T>::AdjacencyListGraph()
 {
 	this->size = 0;
 }
-
-
 
 
 
@@ -552,11 +550,3 @@ void AdjacencyMatrixGraph<T>::visit(T node)
 {
 	cout << "I am inside the 'visit' lambda function and am processing vertex: " << node << endl;;
 }
-
-
-
-
-
-
-
-

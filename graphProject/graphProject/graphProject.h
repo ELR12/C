@@ -5,14 +5,12 @@ on 01/10/2020
 
 This program creates an ADT of a Graph.  "MatrixGraph" and "ListGraph" will be implemented.
 
-cite:  https://www.geeksforgeeks.org/set-find-function-in-c-stl/  (for learning how to use a "Set" container
+cite:  https://www.geeksforgeeks.org/set-find-function-in-c-stl/
 cite:  http://www.cplusplus.com/reference/list/list/
+cite:  https://www.geeksforgeeks.org/virtual-base-class-in-c/
+cite:  http://www.cplusplus.com/reference/queue/queue/
 
 */
-
-
-
-
 
 #pragma once
 #define NDEBUG
@@ -29,8 +27,9 @@ cite:  http://www.cplusplus.com/reference/list/list/
 #include <list>
 using namespace std;
 
-const int SET_SIZE = 15;
 
+const int SET_SIZE = 15;
+const double EDGE_PROBABILITY = 0.5;
 
 
 template <class T>
@@ -45,6 +44,8 @@ public:
 	virtual void addEdge(T, T) = 0;
 	virtual void deleteEdge(T, T) = 0;
 	virtual void deleteNode(T) = 0;
+	void dfs(Graph&, T&);
+	void bfs(Graph&, T&);
 private:
 };
 
@@ -102,7 +103,6 @@ class AdjacencyListGraph : public Graph<T>
 		list<int>::iterator listIter;
 		int size;
 };
-
 
 
 
