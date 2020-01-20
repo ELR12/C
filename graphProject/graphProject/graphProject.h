@@ -48,10 +48,11 @@ public:
 	void addEdge(T, T);
 	void deleteEdge(T, T);
 	void deleteNode(T);
-	void bfs(AdjacencyMatrixGraph&, T);
+	void bfs(AdjacencyMatrixGraph&, T&);
 	void visit(T);
 	void getVertexNumber(vector<T>&, vector<bool>&, queue<T>&);
-	
+	void dfs(AdjacencyMatrixGraph&, T&);
+	void dfsHelper(AdjacencyMatrixGraph&, T, vector<bool>&, int);
 private:
 	T **adjMatrixArray;
 	int size;
@@ -75,7 +76,7 @@ class AdjacencyListGraph : public Graph<T>
 		void deleteNode(T);
 		void  generateNewGraph(int,double);
 		void displayListGraph();
-		void bfs(AdjacencyListGraph&, T);
+		void bfs(AdjacencyListGraph&, T&);
 		void visit(T);
 	private:
 		list<T> myList[SET_SIZE];

@@ -200,7 +200,7 @@ void AdjacencyListGraph<T>::visit(T node)
 // cite: 'Data Structures and Other Objects Using C++ by Main/Savitch'
 
 template<class T>
-void AdjacencyListGraph<T>::bfs(AdjacencyListGraph &g, T startNode)
+void AdjacencyListGraph<T>::bfs(AdjacencyListGraph &g, T &startNode)
 {
 	vector <bool> processedVect;
 	vector <T> connections;
@@ -415,7 +415,7 @@ void AdjacencyMatrixGraph<T>::deleteNode(T x)
 // cite: 'Data Structures and Other Objects Using C++ by Main/Savitch'
 
 template<class T>
-void AdjacencyMatrixGraph<T>::bfs(AdjacencyMatrixGraph &g, T startNode)
+void AdjacencyMatrixGraph<T>::bfs(AdjacencyMatrixGraph &g, T &startNode)
 {
 	vector <bool> processedVect;
 	vector <T> connections;
@@ -446,7 +446,7 @@ void AdjacencyMatrixGraph<T>::bfs(AdjacencyMatrixGraph &g, T startNode)
 
 
 
-
+//Helper function for bfs
 template<class T>
 void AdjacencyMatrixGraph<T>::getVertexNumber(vector<T> &connections, vector<bool> &processedVect, queue<T> &queue)
 {
@@ -460,6 +460,45 @@ void AdjacencyMatrixGraph<T>::getVertexNumber(vector<T> &connections, vector<boo
 		}
 		++index;
 	}
+}
+
+
+
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::dfsHelper(AdjacencyMatrixGraph& g, T startNode, vector<bool> &processedVect, int index)
+{
+	vector <T> connections = g.neighbors(startNode);
+	vector <int>::iterator iter;
+	processedVect[startNode] = true;
+	index = startNode;
+	auto lambdaVisit = [&]() {this->visit(startNode); };
+	lambdaVisit();
+
+	for (int i = 0; i < g.size; ++i) {
+		index = i;
+		if (!processedVect[index]) {
+			dfsHelper(g, index, processedVect, index);
+		}
+	}
+}
+
+
+
+
+template<class T>
+void AdjacencyMatrixGraph<T>::dfs(AdjacencyMatrixGraph& g, T &startNode)
+{
+	vector <bool> processedVect;
+	int index = 0;
+
+	assert(startNode < g.size && startNode >= 0);
+	for (int i = 0; i < this->size; ++i) {  //init array
+		processedVect.push_back(false);
+	}
+	g.dfsHelper(g, startNode, processedVect, index);
+
 }
 
 
