@@ -44,13 +44,13 @@ AdjacencyListGraph<T>::~AdjacencyListGraph()
 template <class T>
 AdjacencyListGraph<T>&  AdjacencyListGraph<T>::generateNewGraph(int numOfNodes, double edgeProbability)
 {
-
+	AdjacencyListGraph graph;
 	default_random_engine generator;
 	uniform_int_distribution<int> distro(0, numOfNodes - 1);
 	int randomEdgeCounter = distro(generator);
 	this->size = numOfNodes;
 	int save;
-	AdjacencyListGraph graph;
+
 
 	//create vertexes
 	for (int i = 0; i < this->size; ++i) {
@@ -332,7 +332,7 @@ AdjacencyMatrixGraph<T>& AdjacencyMatrixGraph<T>::generateNewGraph(int numOfNode
 	int randomEdgeCounter = distro(generator);
 	this->size = numOfNodes;
 	this->adjMatrixArray = new int*[numOfNodes]; // adjacency matrix table
-	AdjacencyListGraph graph;
+	AdjacencyMatrixGraph graph;
 
 												 //creating graph matrix
 	for (int i = 0; i < this->size; ++i) {

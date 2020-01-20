@@ -29,7 +29,7 @@ cite:  http://www.cplusplus.com/reference/list/list/
 #include <list>
 using namespace std;
 
-const int SET_SIZE = 10;
+const int SET_SIZE = 15;
 
 
 
